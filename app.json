@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "benevv",
-    "slug": "benevv",
+    "name": "skate-challenge",
+    "slug": "skatechallenge",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
