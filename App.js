@@ -3,13 +3,9 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { StatusBar } from 'expo-status-bar';
 import * as React from 'react';
 import { StyleSheet, View } from 'react-native';
-
 import useCachedResources from './hooks/useCachedResources';
-// import BottomTabNavigator from './navigation/BottomTabNavigator';
-import LinkingConfiguration from './navigation/LinkingConfiguration';
-
-//---------------------old/new-------------------------------
-import { OpponentSelectionScreen } from "./screens/OpponentSelectionScreen";
+import { OpponentSelectionScreen } from './screens/OpponentSelectionScreen';
+import { AppProvider } from './context/app-context';
 
 const Stack = createStackNavigator();
 
@@ -20,14 +16,20 @@ export default function App(props) {
     return null;
   } else {
     return (
-      <View style={styles.container}>
-        <NavigationContainer linking={LinkingConfiguration}>
-          <Stack.Navigator>
-            <Stack.Screen name="Root" component={OpponentSelectionScreen} />
-          </Stack.Navigator>
-        </NavigationContainer>
-        <StatusBar style="auto" />
-      </View>
+      <AppProvider>
+        <View style={styles.container}>
+          <NavigationContainer>
+            <Stack.Navigator>
+              <Stack.Screen
+                name="Opponent Selection"
+                component={OpponentSelectionScreen}
+              />
+              <Stack.Screen name="Root2" component={OpponentSelectionScreen} />
+            </Stack.Navigator>
+          </NavigationContainer>
+          <StatusBar style="auto" />
+        </View>
+      </AppProvider>
     );
   }
 }
