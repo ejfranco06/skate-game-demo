@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Button, Image } from 'react-native';
+import { StyleSheet, View, Button, Alert } from 'react-native';
 import { PlayerHud } from '../components/PlayerHud';
 import { useApp } from '../context/app-context';
 import { TrickPanel } from '../components/TrickPanel';
-
 import { MonoText } from '../components/StyledText';
-
-import Colors from '../constants/Colors';
 
 const DEFAULT_PLAYER = {
   picUrl: '../assets/images/random-user-image.png',
@@ -45,6 +42,10 @@ export const GameScreen = ({ navigation }) => {
     if (!isPlayer1Turn) handleOpponentTurn();
   }, [isPlayer1Turn]);
 
+  useEffect(() => {
+    checkForWinner();
+  }, [playerBails, opponentBails]);
+
   const updateTurn = () => {
     if (!isPlayer1Turn) {
       getRandomTrick();
@@ -80,12 +81,32 @@ export const GameScreen = ({ navigation }) => {
     else handleBail();
   };
 
-  const waitFor = (delay) =>
-    new Promise((resolve) => setTimeout(resolve, delay));
+  const waitFor = (delay) => {
+    return new Promise((resolve) => setTimeout(resolve, delay));
+  };
+
+  const showWinner = (winner = 'Felipe') => {
+    Alert.alert(
+      'Winner!!!',
+      winner,
+      [
+        {
+          text: 'New Game',
+          onPress: () => navigation.navigate('Opponent Selection'),
+        },
+      ],
+      { cancelable: false }
+    );
+  };
+
+  const checkForWinner = () => {
+    if (playerBails >= 5) showWinner(currentOpponent.name);
+    else if (opponentBails >= 5) showWinner(DEFAULT_PLAYER.name);
+  };
 
   return (
     <View style={styles.container}>
-      <MonoText style={styles.headerText}> Game Screen </MonoText>
+      <MonoText style={styles.headerText}> Skate Game </MonoText>
       <TrickPanel currentTrick={SKATE_TRICKS[currentTrick]} />
       <PlayerHud
         player={DEFAULT_PLAYER}
@@ -103,6 +124,7 @@ export const GameScreen = ({ navigation }) => {
         <Button disabled={!isPlayer1Turn} onPress={handleLand} title="Land" />
         <Button disabled={!isPlayer1Turn} onPress={handleBail} title="Bail" />
       </View>
+      <Button disabled={!isPlayer1Turn} onPress={showWinner} title="winner" />
     </View>
   );
 };
@@ -117,13 +139,11 @@ const styles = StyleSheet.create({
   opponentList: {
     height: '40%',
   },
-
   btnContainer: {
     width: '50%',
     height: 85,
     justifyContent: 'space-between',
   },
-
   headerText: {
     fontSize: 30,
     margin: 10,
