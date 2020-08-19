@@ -124,7 +124,6 @@ export const GameScreen = ({ navigation }) => {
         <Button disabled={!isPlayer1Turn} onPress={handleLand} title="Land" />
         <Button disabled={!isPlayer1Turn} onPress={handleBail} title="Bail" />
       </View>
-      <Button disabled={!isPlayer1Turn} onPress={showWinner} title="winner" />
     </View>
   );
 };

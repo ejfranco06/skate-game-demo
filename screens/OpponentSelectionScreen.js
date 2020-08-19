@@ -47,10 +47,14 @@ export const OpponentSelectionScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <MonoText style={styles.headerText}> Opponents </MonoText>
-      <ScrollView style={styles.opponentList} horizontal={true}>
+      <ScrollView
+        style={styles.opponentList}
+        contentContainerStyle={{ alignItems: 'center' }}
+        horizontal={true}
+      >
         {list}
       </ScrollView>
-      <View style={{ width: 200, marginBottom: 50 }}>
+      <View style={{ width: 200, marginBottom: 40, marginTop: 20 }}>
         <Button onPress={getOpponents} title="refresh" />
       </View>
     </View>
