@@ -58,7 +58,7 @@ export const OpponentSelectionScreen = ({ navigation }) => {
 };
 
 function randomizeOpponentSkill() {
-  return getRndInteger(45, 89);
+  return getRndInteger(45, 80);
 }
 
 function extractOpponent(data = {}) {

@@ -8,13 +8,13 @@ import { MonoText } from '../components/StyledText';
 
 import Colors from '../constants/Colors';
 
-const defaultPlayer = {
+const DEFAULT_PLAYER = {
   picUrl: '../assets/images/random-user-image.png',
   name: 'Player 1',
   skill: 50,
 };
 
-const skateTricks = [
+const SKATE_TRICKS = [
   'Kickflip',
   'Heelflip',
   'FS Shove it',
@@ -41,6 +41,10 @@ export const GameScreen = ({ navigation }) => {
     getRandomTrick();
   }, [getRandomTrick]);
 
+  useEffect(() => {
+    if (!isPlayer1Turn) handleOpponentTurn();
+  }, [isPlayer1Turn]);
+
   const updateTurn = () => {
     if (!isPlayer1Turn) {
       getRandomTrick();
@@ -60,7 +64,7 @@ export const GameScreen = ({ navigation }) => {
   };
 
   const getRandomTrick = () => {
-    const randomTrick = getRndInteger(0, skateTricks.length - 1);
+    const randomTrick = getRndInteger(0, SKATE_TRICKS.length - 1);
     setCurrentTrick(randomTrick);
   };
 
@@ -68,15 +72,36 @@ export const GameScreen = ({ navigation }) => {
     return Math.floor(Math.random() * (max - min)) + min;
   };
 
+  const handleOpponentTurn = async () => {
+    const delay = getRndInteger(1500, 3000);
+    const success = getRndInteger(0, 100);
+    await waitFor(delay);
+    if (success <= currentOpponent.skill) handleLand();
+    else handleBail();
+  };
+
+  const waitFor = (delay) =>
+    new Promise((resolve) => setTimeout(resolve, delay));
+
   return (
     <View style={styles.container}>
       <MonoText style={styles.headerText}> Game Screen </MonoText>
-      <TrickPanel currentTrick={skateTricks[currentTrick]} />
-      <PlayerHud player={defaultPlayer} bails={playerBails} round={round} isActive={isPlayer1Turn} />
-      <PlayerHud player={currentOpponent} bails={opponentBails} round={round} isActive={!isPlayer1Turn} />
+      <TrickPanel currentTrick={SKATE_TRICKS[currentTrick]} />
+      <PlayerHud
+        player={DEFAULT_PLAYER}
+        bails={playerBails}
+        round={round}
+        isActive={isPlayer1Turn}
+      />
+      <PlayerHud
+        player={currentOpponent}
+        bails={opponentBails}
+        round={round}
+        isActive={!isPlayer1Turn}
+      />
       <View style={styles.btnContainer}>
-        <Button onPress={handleLand} title="Land" />
-        <Button onPress={handleBail} title="Bail" />
+        <Button disabled={!isPlayer1Turn} onPress={handleLand} title="Land" />
+        <Button disabled={!isPlayer1Turn} onPress={handleBail} title="Bail" />
       </View>
     </View>
   );
@@ -97,7 +122,6 @@ const styles = StyleSheet.create({
     width: '50%',
     height: 85,
     justifyContent: 'space-between',
-    
   },
 
   headerText: {
