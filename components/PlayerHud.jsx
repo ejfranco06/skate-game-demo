@@ -5,6 +5,7 @@ import { MonoText } from './StyledText';
 
 export const PlayerHud = ({ player, bails, round = 1 }) => {
   const { picUrl = '', name = 'Felipe Santos', skill = '82%' } = player;
+  if(round === 0) round = 1;
   const generateSkate = () => {
     if (bails === 0) return `     `;
     const skate = 'Skate';
