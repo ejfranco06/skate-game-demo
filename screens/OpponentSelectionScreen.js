@@ -16,7 +16,7 @@ export const OpponentSelectionScreen = ({ navigation }) => {
     navigation.navigate('Game');
   };
 
-  useEffect(() => {
+  const getOpponents = () => {
     axios
       .get('https://randomuser.me/api/?results=5&inc=id,name,picture&nat=us')
       .then((response) => {
@@ -25,6 +25,10 @@ export const OpponentSelectionScreen = ({ navigation }) => {
       .catch((error) => {
         console.log(error);
       });
+  };
+
+  useEffect(() => {
+    getOpponents();
   }, []);
 
   const listOfOpponents = () =>
@@ -46,6 +50,9 @@ export const OpponentSelectionScreen = ({ navigation }) => {
       <ScrollView style={styles.opponentList} horizontal={true}>
         {list}
       </ScrollView>
+      <View style={{ width: 200, marginBottom: 50 }}>
+        <Button onPress={getOpponents} title="refresh" />
+      </View>
     </View>
   );
 };
@@ -76,5 +83,9 @@ const styles = StyleSheet.create({
   headerText: {
     fontSize: 30,
     margin: 20,
+  },
+  btn: {
+    width: 500,
+    color: 'red',
   },
 });
