@@ -72,8 +72,8 @@ export const GameScreen = ({ navigation }) => {
     <View style={styles.container}>
       <MonoText style={styles.headerText}> Game Screen </MonoText>
       <TrickPanel currentTrick={skateTricks[currentTrick]} />
-      <PlayerHud player={defaultPlayer} bails={playerBails} round={round} />
-      <PlayerHud player={currentOpponent} bails={opponentBails} round={round} />
+      <PlayerHud player={defaultPlayer} bails={playerBails} round={round} isActive={isPlayer1Turn} />
+      <PlayerHud player={currentOpponent} bails={opponentBails} round={round} isActive={!isPlayer1Turn} />
       <View style={styles.btnContainer}>
         <Button onPress={handleLand} title="Land" />
         <Button onPress={handleBail} title="Bail" />
@@ -97,6 +97,7 @@ const styles = StyleSheet.create({
     width: '50%',
     height: 85,
     justifyContent: 'space-between',
+    
   },
 
   headerText: {

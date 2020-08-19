@@ -3,9 +3,14 @@ import { StyleSheet, View, Image, Button } from 'react-native';
 import Colors from '../constants/Colors';
 import { MonoText } from './StyledText';
 
-export const PlayerHud = ({ player, bails, round = 1 }) => {
+export const PlayerHud = ({ player, bails, round = 1, isActive = false }) => {
   const { picUrl = '', name = 'Felipe Santos', skill = '82%' } = player;
-  if(round === 0) round = 1;
+  if (round === 0) round = 1;
+
+  const styleArr = isActive
+    ? [styles.container, styles.active]
+    : styles.container;
+
   const generateSkate = () => {
     if (bails === 0) return `     `;
     const skate = 'Skate';
@@ -20,7 +25,7 @@ export const PlayerHud = ({ player, bails, round = 1 }) => {
   const skateLetters = generateSkate();
 
   return (
-    <View style={styles.opponentContainer}>
+    <View style={styleArr}>
       <Image
         style={styles.profilePic}
         source={
@@ -42,7 +47,7 @@ export const PlayerHud = ({ player, bails, round = 1 }) => {
 const CARD_WIDTH = 350;
 const CARD_HEIGHT = 100;
 const styles = StyleSheet.create({
-  opponentContainer: {
+  container: {
     flexDirection: 'row',
     width: CARD_WIDTH,
     height: CARD_HEIGHT,
@@ -59,6 +64,10 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
     width: 100,
     height: 100,
+  },
+  active: {
+    borderWidth: 3,
+    borderColor: Colors.juneBud,
   },
 
   infoText: {
