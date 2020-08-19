@@ -4,6 +4,7 @@ import { StatusBar } from 'expo-status-bar';
 import * as React from 'react';
 import { StyleSheet, View } from 'react-native';
 import useCachedResources from './hooks/useCachedResources';
+import { GameScreen } from './screens/GameScreen';
 import { OpponentSelectionScreen } from './screens/OpponentSelectionScreen';
 import { AppProvider } from './context/app-context';
 
@@ -24,7 +25,7 @@ export default function App(props) {
                 name="Opponent Selection"
                 component={OpponentSelectionScreen}
               />
-              <Stack.Screen name="Root2" component={OpponentSelectionScreen} />
+              <Stack.Screen name="Game" component={GameScreen} />
             </Stack.Navigator>
           </NavigationContainer>
           <StatusBar style="auto" />

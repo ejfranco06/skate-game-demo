@@ -5,8 +5,7 @@ import axios from 'axios';
 import { Opponent } from '../components/Opponent';
 import { ScrollView } from 'react-native-gesture-handler';
 import { MonoText } from '../components/StyledText';
-import Colors from "../constants/Colors";
-
+import Colors from '../constants/Colors';
 
 export const OpponentSelectionScreen = ({ navigation }) => {
   const [opponents, setOpponents] = useState([]);
@@ -14,12 +13,12 @@ export const OpponentSelectionScreen = ({ navigation }) => {
 
   const handleOpponentSelection = (opponent) => {
     setCurrentOpponent(opponent);
-    navigation.navigate('Root2');
+    navigation.navigate('Game');
   };
 
   useEffect(() => {
     axios
-      .get('https://randomuser.me/api/?results=4&inc=id,name,picture&nat=us')
+      .get('https://randomuser.me/api/?results=5&inc=id,name,picture&nat=us')
       .then((response) => {
         setOpponents(response.data.results);
       })
@@ -44,7 +43,9 @@ export const OpponentSelectionScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <MonoText style={styles.headerText}> Opponents </MonoText>
-      <ScrollView style={styles.opponentList} horizontal={true}>{list}</ScrollView>
+      <ScrollView style={styles.opponentList} horizontal={true}>
+        {list}
+      </ScrollView>
     </View>
   );
 };
@@ -57,7 +58,6 @@ function extractOpponent(data = {}) {
   const name = `${data.name.first} ${data.name.last}`;
   const skill = randomizeOpponentSkill();
   const picUrl = data.picture.large;
-
   return { name, skill, picUrl };
 }
 function getRndInteger(min, max) {
@@ -70,11 +70,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
   },
-  opponentList:{
-    height: "40%"
+  opponentList: {
+    height: '40%',
   },
   headerText: {
-    fontSize:30,
-    margin: 20
+    fontSize: 30,
+    margin: 20,
   },
 });
